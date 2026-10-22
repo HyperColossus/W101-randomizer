@@ -82,6 +82,12 @@ The following code points were identified in Imlight's source; check file paths 
 
 **Plugin integration status:** The C# `RandomizerClient.cs` is source-only, using standard .NET HTTP/JSON APIs. This repository **does not yet include an Imlight fork/patch**, and the helper has not been compiled against a pinned Imlight build in this environment. It cannot prove that a changed NPC will have correct rendering, dialogue or cinematics.
 
+## Linux service template (do not enable yet)
+
+The sample [`deploy/w101-randomizer.service.example`](../deploy/w101-randomizer.service.example) can be adapted after creating an unprivileged `w101randomizer` account, installing files in `/opt/w101-randomizer`, creating a **verified** catalog and active manifest, and putting a secret environment file in `/etc/w101-randomizer/bridge.env` with mode `0600`. It binds only to loopback and writes SQLite state to its own data directory. Never run the template with the demo catalog on an internet-facing service.
+
+The C# helper has a [`net10.0` library project](../integration/ImlightBridge/ImlightBridge.csproj). Building it still requires the .NET 10 SDK, and embedding it in Imlight still requires separate actor-safe patches. This source has **not** been compiled or tested against the actual pinned game-server build here.
+
 ## Security and operational constraints
 
 - Bind Python bridge to `127.0.0.1` only. It rejects non-loopback bind addresses and has no TLS, so do not proxy the API to the public internet.
