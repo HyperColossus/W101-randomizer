@@ -6,7 +6,7 @@ A work-in-progress **seed-based Wizard101 randomizer** built around the open-sou
 
 See the [Unified Feature Plan](docs/FEATURES.md) for the complete feature catalog, including NPC identity, questgiver, and location shuffle. See the [Ascension Wildcard Feature Design](docs/ASCENSION_WILDCARD_DESIGN.md) for spell progression mechanics.
 
-> **Status:** Prototype v0.2. The seed engine, Wildcard/Draft rules, Skill Cards, rerolls, prestige, optional quest-logic graph, transactional SQLite state, and an authenticated loopback API are implemented. **The C# bridge is a standalone client only; no live Imlight hooks or game-client integration have been tested or deployed.**
+> **Status:** Offline prototype v0.3. The seed engine, Wildcard/Draft rules, SQLite bridge, SpiralDB source importer, provenance-checked curation, and C# actor-owned effect contract are implemented. **No live Imlight actor hooks, NPC swaps, or playable game-server integration have been deployed or verified.**
 
 ## Project goals
 
@@ -33,11 +33,15 @@ python3 -m randomizer.cli progress --catalog config/example_catalog.json --manif
 python3 -m randomizer.cli status --catalog config/example_catalog.json --manifest out/demo-manifest.json --db state/demo.sqlite3
 ```
 
-**Implemented in local code:** independently seeded world mappings; Wildcard/Draft progression; spell locks/reroll tokens; supported skill cards and a prototype prestige lifecycle; tier-filtered creature and boss placements; seeded reward checks; compatible NPC role, identity and location mappings; basic graph + optional modeled quest progression checks; SQLite state/idempotent commands/claim ledger/durable event outbox; an authenticated loopback HTTP API; and a C# HTTP client for future Imlight integration.
+**Implemented in local code:** independently seeded world mappings; Wildcard/Draft progression; spell locks/reroll tokens; supported skill cards and a prototype prestige lifecycle; tier-filtered creature and boss placements; seeded reward checks; compatible NPC role, identity and location mappings; basic graph + optional modeled quest progression checks; SQLite state/idempotent commands/claim ledger/durable event outbox; an authenticated loopback HTTP API; and a C# HTTP client plus actor-owned effect validation contract for future Imlight integration; SpiralDB source extraction and fingerprint-pinned manual curation.
 
-**Automated tests:** 36 unit/integration tests passed locally on October 22, 2026. GitHub Actions execution has not been independently verified.
+**Automated tests:** 65 Python unit/integration tests passed locally on October 22, 2026. GitHub Actions now also builds the standalone .NET 10 bridge library; verify the latest job result in Actions.
 
 **Not yet connected to a playable Wizard101 private server:** game-specific Imlight hooks, authoritative spellbook/item grants, NPC appearance and dialogue swaps, quest and NPC service rebinding, actual portal rerouting, complete real-world content/quest catalogs, live cross-school pip balancing, multiplayer game tests, and Discord bot integration. See [Developer Notes](docs/DEVELOPMENT.md), [Game Server Integration](docs/INTEGRATION.md), and [Unified Feature Plan](docs/FEATURES.md).
+
+## SpiralDB → catalog → manifest
+
+Use [the audited SpiralDB pipeline](docs/SPIRALDB_CURATED_PIPELINE.md) to extract real quest/NPC/zone/trainer/loot references from a pinned local SpiralDB checkout, then add an explicit, game-tested curation file. The importer refuses mismatched source fingerprints and unknown spell/item references. This is **not** proof that NPC appearances, real client spellbooks, quest services, or portal transitions work until tested in Imlight. [Example curation schema](config/curation.example.json).
 
 ## Intended deployment
 
@@ -61,11 +65,11 @@ Revive101 provides Linux builds. We plan to start from a compatible tagged Imlig
 - [ ] Change default admin credentials and test local login
 - [ ] Keep game services separate from the existing Discord bot
 - [x] Build an offline deterministic spell-rolling engine with a **demo** catalog (real game content still needed)
-- [ ] Integrate level-up rolls, spellbook updates, persistence, and starter attack guarantee
+- [ ] Integrate level-up rolls and actual spellbook mutations into Imlight's owning actor (standalone C# event contract committed)
 - [ ] Verify cross-school pip behavior and prevent unusable rolls
 - [x] Implement offline spell locks and event-based reroll tokens (in-game award hookup pending)
 - [x] Implement offline three-choice Draft and pending-offer state (in-game choice UI pending)
-- [ ] Build an eligible NPC catalog and implement safe seeded identity/appearance swaps
+- [x] Extract NPC quest-persona references from SpiralDB and add reviewable visual curation (real NPC appearance swaps still pending)
 - [ ] Implement NPC questgiver/goal role mapping with dialogue, markers and progression tests
 - [x] Implement seed-stable creature, boss and reward **plans** (game changes pending)
 - [ ] Validate randomized NPC locations and portal routes before enabling
