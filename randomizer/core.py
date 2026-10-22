@@ -6,7 +6,7 @@ import json
 from collections import deque
 from typing import Any
 
-ENGINE_VERSION = "0.1.0"
+ENGINE_VERSION = "0.2.0"
 MANIFEST_SCHEMA = 1
 
 
@@ -209,7 +209,6 @@ def _reachable(edges: list[dict], start: str) -> set[str]:
 
 def _portal_shuffle(catalog: dict, rng: SeedRng, enabled: bool) -> tuple[dict[str, str], dict]:
     edges = catalog.get("portals", [])
-    fixed = [x for x in edges if x.get("protected", False)]
     mutable = sorted([x for x in edges if not x.get("protected", False)], key=lambda x: x["id"])
     original = {x["id"]: x["destination"] for x in edges}
     def valid(mapping: dict[str, str]) -> bool:
@@ -269,7 +268,9 @@ def generate_manifest(catalog: dict, settings: dict) -> dict:
         "modules": modules,
         "spells": {"mode": spell_mode, "starting_count": int(settings.get("starting_spells", 3)),
                    "level_step": int(settings.get("levels_per_spell", 3)),
-                   "max_starter_pips": int(settings.get("max_starter_pips", 2))},
+                   "max_starter_pips": int(settings.get("max_starter_pips", 2)),
+                   "max_level": int(settings.get("max_level", 170)),
+                   "synergy_bonus": int(settings.get("synergy_bonus", 0))},
         "npc_identity": identity, "npc_roles": roles, "npc_locations": locations,
         "creatures": creatures, "bosses": bosses,
         "rewards": _reward_shuffle(catalog, modules, seed), "portals": portals,
@@ -277,7 +278,16 @@ def generate_manifest(catalog: dict, settings: dict) -> dict:
                    "npc_role_quest_links": "not validated (game integration required)",
                    "client_appearances": "not validated (game integration required)"},
     }
-    if result["spells"]["starting_count"] < 1 or result["spells"]["level_step"] < 1:
-        raise RandomizerError("starting_spells and levels_per_spell must be positive")
+    cfg = result['spells']
+    if not 1 <= cfg['starting_count'] <= 20:
+        raise RandomizerError('starting_spells must be 1..20')
+    if not 1 <= cfg['level_step'] <= 100:
+        raise RandomizerError('levels_per_spell must be 1..100')
+    if not 1 <= cfg['max_level'] <= 500:
+        raise RandomizerError('max_level must be 1..500')
+    if not 0 <= cfg['synergy_bonus'] <= 10:
+        raise RandomizerError('synergy_bonus must be 0..10')
+    if not 1 <= cfg['max_starter_pips'] <= 4:
+        raise RandomizerError('max_starter_pips must be 1..4')
     result["manifest_sha256"] = fingerprint(result)
     return result
