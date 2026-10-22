@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+*.egg-info/
+/dist/
+/build/
+# Output manifests and simulated/real player saves
+out/
+state/
+*.tmp
+.env
+.env.*
+*.pfx
+*.pem
+*.key
+# Never version-proprietary game assets, databases, tokens, or client archives
+*.wad
+*.db
+*.sqlite
+*.sqlite3
+*.zip
