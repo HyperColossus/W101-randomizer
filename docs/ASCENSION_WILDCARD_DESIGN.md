@@ -6,9 +6,9 @@
 
 ## Core product decision
 
-The defining mechanic is **a personal, evolving, cross-school spellbook**. Players level up and discover new spells without controlling every unlock. Building a functional, surprising combination is the game.
+This document details the **personal, evolving, cross-school spellbook** module. Players level up and discover new spells without controlling every unlock, then create builds from what they roll.
 
-This **supersedes the earlier emphasis on item-location and portal shuffling**. World progression, bosses, and normal loot should initially remain as close to vanilla as Revive101 currently supports. Creature/loot/portal randomization become optional secondary modes.
+**This module is part of a larger randomizer, not a replacement for it.** Seeded NPC encounters, creatures, bosses, loot, quest rewards, and gateway shuffle are equally important, independently configurable adventure modules. See the [Unified Feature Plan](FEATURES.md). They can be combined with Wildcard or Draft to create a Full Spiral Chaos run.
 
 These features are an original Wizard101 adaptation. They are **not** present in stock Imlight and the Ascension implementation details described below are not Ascension source code.
 
@@ -149,7 +149,8 @@ Implementation should isolate randomization behind a `WildcardRollService` / `Sp
 3. **Cross-school balancing:** Pip eligibility and starter-pool balance.
 4. **Agency:** Lock spell and earnable reroll token.
 5. **Draft mode:** 3-card saved offers and choice commands.
-6. **Long-term:** Skill Cards, synergy, enchantment-style passives, prestige, optional enemy/loot/portal shuffle.
+6. **Parallel adventure modules:** NPC identity/questgiver/location shuffles, creature encounters, bosses, loot/quest rewards, and validated gateway shuffle.
+7. **Long-term:** Skill Cards, synergy, enchantment-style passives, and prestige.
 
 ## Open design decisions
 
