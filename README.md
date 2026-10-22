@@ -2,23 +2,25 @@
 
 A work-in-progress **seed-based Wizard101 randomizer** built around the open-source [Revive101 / Imlight](https://github.com/Revive101/Imlight) private-server framework.
 
-The goal is to turn Wizard City into a replayable challenge where a seed determines the spells you learn, enemies you encounter, and rewards you earn, while preserving a fair and completable route through the game.
+The **primary feature is Ascension-inspired Wildcard progression**: each wizard starts with randomized usable spells and earns more random spells as they level up. Players adapt their decks to what they discover. Later modes will add Draft (choose one of three random spells), protected abilities, limited rerolls, and collectible guaranteed-spell cards. Optional random enemies, loot, and portals are secondary features, not the core experience.
+
+Read the [Ascension Wildcard Feature Design](docs/ASCENSION_WILDCARD_DESIGN.md) for rules, Wizard101-specific pip balance, technical integration points, and acceptance tests.
 
 > **Status:** Planning / environment setup. This repository does not yet contain a playable randomizer or a configured game server.
 
 ## Project goals
 
-- **Seeded runs:** Generate and save a reproducible mapping of encounters and rewards. The same seed and settings should give the same placements.
-- **Randomized spell progression:** Shuffle spell unlocks while guaranteeing early access to usable attacks.
-- **Randomized enemies:** Replace encounters with difficulty-appropriate creatures rather than unrestricted endgame bosses.
-- **Randomized loot:** Shuffle selected quest and boss rewards, taking account of item eligibility.
-- **Progression safety:** Validate placements so required abilities and routes remain accessible.
+- **Seeded Wildcard builds:** Each character gets deterministic random spells as they level, based on a shared realm seed and character identity.
+- **Cross-school spell progression:** Roll eligible, usable spells from any school while guaranteeing early access to an attack.
+- **Build agency:** Add a protected starter spell, earned rerolls, and optional guaranteed-spell cards.
+- **Draft mode:** Offer three random spells and let players choose one (later milestone).
+- **Safe progression:** Do not generate spells that are missing, uncastable, or beyond the wizard's level.
 - **Multiplayer:** Support a shared server seed so friends can play the same world.
-- **Optional later modes:** Gateway shuffle, harder seeds, and Discord-bot commands.
+- **Optional later modes:** Enemy/loot/gateway shuffle, harder seeds, and Discord-bot commands.
 
 ### First playable milestone (v0.1)
 
-A **Wizard City-focused** prototype that runs locally, successfully loads a character, and demonstrates one reproducible randomized system. After that, add spell rewards and item drops, then progression checks. A complete all-world randomizer is not part of v0.1.
+A **Wizard City-focused** prototype that starts a wizard with a safe randomized spell loadout and grants another eligible random spell on level-up, persisting the result across reconnects. After that, add locks/rerolls and Draft Mode. A complete all-world randomizer is not part of v0.1.
 
 ## Intended deployment
 
@@ -41,11 +43,12 @@ Revive101 provides Linux builds. We plan to start from a compatible tagged Imlig
 - [ ] Set up Aurorium and verify compatible game assets / client
 - [ ] Change default admin credentials and test local login
 - [ ] Keep game services separate from the existing Discord bot
-- [ ] Test Imlight's experimental `RandomizeCreatures` option
-- [ ] Build a seed generator that produces deterministic, saved placement maps
-- [ ] Add tiered enemy pools and spell reward pools
-- [ ] Implement quest/boss loot placement and repeat-claim protection
-- [ ] Validate game progression to avoid softlocks
+- [ ] Build an offline deterministic per-character spell-rolling engine and vetted spell catalog
+- [ ] Integrate level-up rolls, spellbook updates, persistence, and starter attack guarantee
+- [ ] Verify cross-school pip behavior and prevent unusable rolls
+- [ ] Implement protected spell slots and earned reroll tokens
+- [ ] Add optional three-card Draft mode
+- [ ] Test secondary enemy, loot, and portal shuffle modes when the core is stable
 - [ ] Add configuration controls and optional Discord bot integration
 - [ ] Test multiplayer and persist / restore active runs
 
