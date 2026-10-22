@@ -1,85 +1,473 @@
 {
   "catalog_note": "DEMO PLACEHOLDERS ONLY, not Wizard101/SpiralDB game IDs. Replace with vetted, user-provided compatible IDs before integration.",
-  "zones": ["commons", "ravenwood", "unicorn_way", "olde_town"],
+  "zones": [
+    "commons",
+    "ravenwood",
+    "unicorn_way",
+    "olde_town"
+  ],
   "start_zone": "commons",
-  "required_zones": ["commons", "ravenwood", "unicorn_way", "olde_town"],
+  "required_zones": [
+    "commons",
+    "ravenwood",
+    "unicorn_way",
+    "olde_town"
+  ],
   "require_return_paths": true,
   "spells": [
-    {"id": "demo-spark", "school": "storm", "pips": 1, "min_level": 1, "tags": ["attack"], "supported": true},
-    {"id": "demo-ember", "school": "fire", "pips": 1, "min_level": 1, "tags": ["attack"], "supported": true},
-    {"id": "demo-flake", "school": "ice", "pips": 1, "min_level": 1, "tags": ["attack"], "supported": true},
-    {"id": "demo-sprite", "school": "life", "pips": 1, "min_level": 1, "tags": ["heal"], "supported": true},
-    {"id": "demo-shield", "school": "ice", "pips": 0, "min_level": 1, "tags": ["shield"], "supported": true},
-    {"id": "demo-blade", "school": "balance", "pips": 0, "min_level": 1, "tags": ["blade"], "supported": true},
-    {"id": "demo-trap", "school": "death", "pips": 1, "min_level": 1, "tags": ["trap"], "supported": true},
-    {"id": "demo-multi-attack", "school": "myth", "pips": 2, "min_level": 4, "tags": ["attack"], "supported": true},
-    {"id": "demo-absorb", "school": "life", "pips": 2, "min_level": 4, "tags": ["shield"], "supported": true},
-    {"id": "demo-fire-blast", "school": "fire", "pips": 3, "min_level": 7, "tags": ["attack"], "supported": true},
-    {"id": "demo-drain", "school": "death", "pips": 3, "min_level": 7, "tags": ["attack", "heal"], "supported": true},
-    {"id": "demo-team-shield", "school": "balance", "pips": 2, "min_level": 10, "tags": ["shield", "support"], "supported": true},
-    {"id": "demo-big-heal", "school": "life", "pips": 3, "min_level": 10, "tags": ["heal"], "supported": true}
+    {
+      "id": "demo-spark",
+      "school": "storm",
+      "pips": 1,
+      "min_level": 1,
+      "tags": [
+        "attack"
+      ],
+      "supported": true
+    },
+    {
+      "id": "demo-ember",
+      "school": "fire",
+      "pips": 1,
+      "min_level": 1,
+      "tags": [
+        "attack"
+      ],
+      "supported": true
+    },
+    {
+      "id": "demo-flake",
+      "school": "ice",
+      "pips": 1,
+      "min_level": 1,
+      "tags": [
+        "attack"
+      ],
+      "supported": true
+    },
+    {
+      "id": "demo-sprite",
+      "school": "life",
+      "pips": 1,
+      "min_level": 1,
+      "tags": [
+        "heal"
+      ],
+      "supported": true
+    },
+    {
+      "id": "demo-shield",
+      "school": "ice",
+      "pips": 0,
+      "min_level": 1,
+      "tags": [
+        "shield"
+      ],
+      "supported": true
+    },
+    {
+      "id": "demo-blade",
+      "school": "balance",
+      "pips": 0,
+      "min_level": 1,
+      "tags": [
+        "blade"
+      ],
+      "supported": true
+    },
+    {
+      "id": "demo-trap",
+      "school": "death",
+      "pips": 1,
+      "min_level": 1,
+      "tags": [
+        "trap"
+      ],
+      "supported": true
+    },
+    {
+      "id": "demo-multi-attack",
+      "school": "myth",
+      "pips": 2,
+      "min_level": 4,
+      "tags": [
+        "attack"
+      ],
+      "supported": true
+    },
+    {
+      "id": "demo-absorb",
+      "school": "life",
+      "pips": 2,
+      "min_level": 4,
+      "tags": [
+        "shield"
+      ],
+      "supported": true
+    },
+    {
+      "id": "demo-fire-blast",
+      "school": "fire",
+      "pips": 3,
+      "min_level": 7,
+      "tags": [
+        "attack"
+      ],
+      "supported": true
+    },
+    {
+      "id": "demo-drain",
+      "school": "death",
+      "pips": 3,
+      "min_level": 7,
+      "tags": [
+        "attack",
+        "heal"
+      ],
+      "supported": true
+    },
+    {
+      "id": "demo-team-shield",
+      "school": "balance",
+      "pips": 2,
+      "min_level": 10,
+      "tags": [
+        "shield",
+        "support"
+      ],
+      "supported": true
+    },
+    {
+      "id": "demo-big-heal",
+      "school": "life",
+      "pips": 3,
+      "min_level": 10,
+      "tags": [
+        "heal"
+      ],
+      "supported": true
+    }
   ],
   "identities": [
-    {"id": "demo-npc-1", "group": "town", "visual_supported": true},
-    {"id": "demo-npc-2", "group": "town", "visual_supported": true},
-    {"id": "demo-npc-3", "group": "town", "visual_supported": true},
-    {"id": "demo-npc-4", "group": "town", "visual_supported": true},
-    {"id": "demo-special", "group": "story", "visual_supported": true}
+    {
+      "id": "demo-npc-1",
+      "group": "town",
+      "visual_supported": true
+    },
+    {
+      "id": "demo-npc-2",
+      "group": "town",
+      "visual_supported": true
+    },
+    {
+      "id": "demo-npc-3",
+      "group": "town",
+      "visual_supported": true
+    },
+    {
+      "id": "demo-npc-4",
+      "group": "town",
+      "visual_supported": true
+    },
+    {
+      "id": "demo-special",
+      "group": "story",
+      "visual_supported": true
+    }
   ],
   "npcs": [
-    {"slot": "story-mentor", "identity": "demo-special", "zone": "commons", "roles": ["quest_offer", "quest_goal"], "protected": true, "appearance_group": "story", "location": "mentor-spot"},
-    {"slot": "town-a", "identity": "demo-npc-1", "zone": "commons", "roles": ["quest_offer"], "appearance_group": "town", "location": "commons-a"},
-    {"slot": "town-b", "identity": "demo-npc-2", "zone": "commons", "roles": ["quest_offer"], "appearance_group": "town", "location": "commons-b"},
-    {"slot": "town-c", "identity": "demo-npc-3", "zone": "commons", "roles": [], "appearance_group": "town", "location": "commons-c"},
-    {"slot": "town-d", "identity": "demo-npc-4", "zone": "unicorn_way", "roles": [], "appearance_group": "town", "location": "unicorn-a"}
+    {
+      "slot": "story-mentor",
+      "identity": "demo-special",
+      "zone": "commons",
+      "roles": [
+        "quest_offer",
+        "quest_goal"
+      ],
+      "protected": true,
+      "appearance_group": "story",
+      "location": "mentor-spot"
+    },
+    {
+      "slot": "town-a",
+      "identity": "demo-npc-1",
+      "zone": "commons",
+      "roles": [
+        "quest_offer"
+      ],
+      "appearance_group": "town",
+      "location": "commons-a"
+    },
+    {
+      "slot": "town-b",
+      "identity": "demo-npc-2",
+      "zone": "commons",
+      "roles": [
+        "quest_offer"
+      ],
+      "appearance_group": "town",
+      "location": "commons-b"
+    },
+    {
+      "slot": "town-c",
+      "identity": "demo-npc-3",
+      "zone": "commons",
+      "roles": [],
+      "appearance_group": "town",
+      "location": "commons-c"
+    },
+    {
+      "slot": "town-d",
+      "identity": "demo-npc-4",
+      "zone": "unicorn_way",
+      "roles": [],
+      "appearance_group": "town",
+      "location": "unicorn-a"
+    }
   ],
   "npc_locations": [
-    {"id": "commons-a", "zone": "commons", "approved": true},
-    {"id": "commons-b", "zone": "commons", "approved": true},
-    {"id": "commons-c", "zone": "commons", "approved": true},
-    {"id": "unicorn-a", "zone": "unicorn_way", "approved": true}
+    {
+      "id": "commons-a",
+      "zone": "commons",
+      "approved": true
+    },
+    {
+      "id": "commons-b",
+      "zone": "commons",
+      "approved": true
+    },
+    {
+      "id": "commons-c",
+      "zone": "commons",
+      "approved": true
+    },
+    {
+      "id": "unicorn-a",
+      "zone": "unicorn_way",
+      "approved": true
+    }
   ],
   "creature_pool": [
-    {"id": "demo-weak-a", "tier": 1, "supported": true},
-    {"id": "demo-weak-b", "tier": 1, "supported": true},
-    {"id": "demo-mid-a", "tier": 2, "supported": true},
-    {"id": "demo-mid-b", "tier": 2, "supported": true}
+    {
+      "id": "demo-weak-a",
+      "tier": 1,
+      "supported": true
+    },
+    {
+      "id": "demo-weak-b",
+      "tier": 1,
+      "supported": true
+    },
+    {
+      "id": "demo-mid-a",
+      "tier": 2,
+      "supported": true
+    },
+    {
+      "id": "demo-mid-b",
+      "tier": 2,
+      "supported": true
+    }
   ],
   "creature_spawns": [
-    {"slot": "unicorn-mob-1", "id": "demo-weak-a", "tier": 1},
-    {"slot": "unicorn-mob-2", "id": "demo-weak-b", "tier": 1},
-    {"slot": "olde-mob-1", "id": "demo-mid-a", "tier": 2},
-    {"slot": "quest-scripted-mob", "id": "demo-weak-a", "tier": 1, "protected": true}
+    {
+      "slot": "unicorn-mob-1",
+      "id": "demo-weak-a",
+      "tier": 1
+    },
+    {
+      "slot": "unicorn-mob-2",
+      "id": "demo-weak-b",
+      "tier": 1
+    },
+    {
+      "slot": "olde-mob-1",
+      "id": "demo-mid-a",
+      "tier": 2
+    },
+    {
+      "slot": "quest-scripted-mob",
+      "id": "demo-weak-a",
+      "tier": 1,
+      "protected": true
+    }
   ],
   "boss_pool": [
-    {"id": "demo-boss-a", "tier": 1, "supported": true},
-    {"id": "demo-boss-b", "tier": 1, "supported": true}
+    {
+      "id": "demo-boss-a",
+      "tier": 1,
+      "supported": true
+    },
+    {
+      "id": "demo-boss-b",
+      "tier": 1,
+      "supported": true
+    }
   ],
   "boss_spawns": [
-    {"slot": "miniboss-1", "id": "demo-boss-a", "tier": 1},
-    {"slot": "miniboss-2", "id": "demo-boss-b", "tier": 1},
-    {"slot": "mandatory-boss", "id": "demo-boss-a", "tier": 1, "protected": true}
+    {
+      "slot": "miniboss-1",
+      "id": "demo-boss-a",
+      "tier": 1
+    },
+    {
+      "slot": "miniboss-2",
+      "id": "demo-boss-b",
+      "tier": 1
+    },
+    {
+      "slot": "mandatory-boss",
+      "id": "demo-boss-a",
+      "tier": 1,
+      "protected": true
+    }
   ],
   "reward_pool": [
-    {"id": "demo-wand-a", "pool": "gear", "min_level": 1, "supported": true},
-    {"id": "demo-wand-b", "pool": "gear", "min_level": 1, "supported": true},
-    {"id": "demo-hat", "pool": "gear", "min_level": 3, "supported": true},
-    {"id": "demo-potion", "pool": "consumables", "min_level": 1, "supported": true},
-    {"id": "demo-elixir", "pool": "consumables", "min_level": 1, "supported": true}
+    {
+      "id": "demo-wand-a",
+      "pool": "gear",
+      "min_level": 1,
+      "supported": true
+    },
+    {
+      "id": "demo-wand-b",
+      "pool": "gear",
+      "min_level": 1,
+      "supported": true
+    },
+    {
+      "id": "demo-hat",
+      "pool": "gear",
+      "min_level": 3,
+      "supported": true
+    },
+    {
+      "id": "demo-potion",
+      "pool": "consumables",
+      "min_level": 1,
+      "supported": true
+    },
+    {
+      "id": "demo-elixir",
+      "pool": "consumables",
+      "min_level": 1,
+      "supported": true
+    }
   ],
   "reward_checks": [
-    {"id": "quest-01", "kind": "quest", "item": "demo-wand-a", "pool": "gear", "level": 1},
-    {"id": "quest-02", "kind": "quest", "item": "demo-wand-b", "pool": "gear", "level": 4},
-    {"id": "boss-01", "kind": "boss", "item": "demo-hat", "pool": "gear", "level": 5},
-    {"id": "mob-01", "kind": "mob", "item": "demo-potion", "pool": "consumables", "level": 2},
-    {"id": "critical-quest-key", "kind": "quest", "item": "demo-story-key", "pool": "gear", "level": 1, "protected": true}
+    {
+      "id": "quest-01",
+      "kind": "quest",
+      "item": "demo-wand-a",
+      "pool": "gear",
+      "level": 1
+    },
+    {
+      "id": "quest-02",
+      "kind": "quest",
+      "item": "demo-wand-b",
+      "pool": "gear",
+      "level": 4
+    },
+    {
+      "id": "boss-01",
+      "kind": "boss",
+      "item": "demo-hat",
+      "pool": "gear",
+      "level": 5
+    },
+    {
+      "id": "mob-01",
+      "kind": "mob",
+      "item": "demo-potion",
+      "pool": "consumables",
+      "level": 2
+    },
+    {
+      "id": "critical-quest-key",
+      "kind": "quest",
+      "item": "demo-story-key",
+      "pool": "gear",
+      "level": 1,
+      "protected": true
+    }
   ],
   "portals": [
-    {"id": "commons-to-ravenwood", "source": "commons", "destination": "ravenwood"},
-    {"id": "ravenwood-to-commons", "source": "ravenwood", "destination": "commons"},
-    {"id": "commons-to-unicorn", "source": "commons", "destination": "unicorn_way"},
-    {"id": "unicorn-to-commons", "source": "unicorn_way", "destination": "commons"},
-    {"id": "commons-to-olde", "source": "commons", "destination": "olde_town"},
-    {"id": "olde-to-commons", "source": "olde_town", "destination": "commons"}
-  ]
+    {
+      "id": "commons-to-ravenwood",
+      "source": "commons",
+      "destination": "ravenwood"
+    },
+    {
+      "id": "ravenwood-to-commons",
+      "source": "ravenwood",
+      "destination": "commons"
+    },
+    {
+      "id": "commons-to-unicorn",
+      "source": "commons",
+      "destination": "unicorn_way"
+    },
+    {
+      "id": "unicorn-to-commons",
+      "source": "unicorn_way",
+      "destination": "commons"
+    },
+    {
+      "id": "commons-to-olde",
+      "source": "commons",
+      "destination": "olde_town"
+    },
+    {
+      "id": "olde-to-commons",
+      "source": "olde_town",
+      "destination": "commons"
+    }
+  ],
+  "story_logic": {
+    "starting_flags": [],
+    "portal_rules": {
+      "commons-to-olde": [
+        "mentor_met"
+      ]
+    },
+    "goals": [
+      {
+        "id": "meet_mentor",
+        "npc_slot": "story-mentor",
+        "requires": [],
+        "grants": [
+          "mentor_met"
+        ]
+      },
+      {
+        "id": "meet_town",
+        "npc_slot": "town-a",
+        "requires": [
+          "mentor_met"
+        ],
+        "grants": [
+          "town_contact"
+        ]
+      },
+      {
+        "id": "meet_unicorn",
+        "npc_slot": "town-d",
+        "requires": [
+          "town_contact"
+        ],
+        "grants": [
+          "demo_victory"
+        ]
+      }
+    ],
+    "required_goals": [
+      "meet_mentor",
+      "meet_town",
+      "meet_unicorn"
+    ],
+    "victory_flags": [
+      "demo_victory"
+    ]
+  }
 }
