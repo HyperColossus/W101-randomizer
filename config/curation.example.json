@@ -1,0 +1,10 @@
+{
+  "spiraldb_sha256": "COPY_SOURCE_SHA256_FROM_THE_SPIRALDB_AUDIT_REPORT",
+  "client_build": "COPY_VERIFIED_CLIENT_BUILD",
+  "imlight_revision": "COPY_PINNED_IMLIGHT_REVISION",
+  "spells": [],
+  "reward_items": [],
+  "quest_rewards": [],
+  "npc_visuals": [],
+  "portal_triggers": []
+}
