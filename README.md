@@ -6,7 +6,7 @@ A work-in-progress **seed-based Wizard101 randomizer** built around the open-sou
 
 See the [Unified Feature Plan](docs/FEATURES.md) for the complete feature catalog, including NPC identity, questgiver, and location shuffle. See the [Ascension Wildcard Feature Design](docs/ASCENSION_WILDCARD_DESIGN.md) for spell progression mechanics.
 
-> **Status:** Planning / environment setup. This repository does not yet contain a playable randomizer or a configured game server.
+> **Status:** Offline engine v0.1 is implemented and locally tested. It can generate seed manifests and simulate Wildcard/Draft character progression. **Nothing is connected to a running Wizard101 client or Imlight server yet.**
 
 ## Project goals
 
@@ -21,6 +21,20 @@ See the [Unified Feature Plan](docs/FEATURES.md) for the complete feature catalo
 ### First playable milestone (v0.1)
 
 A **Wizard City-focused** base that demonstrates deterministic Wildcard spell rewards and at least one safe, seeded adventure-world shuffle (creature or eligible NPC appearance). Build NPC questgiver swaps, loot/reward shuffle, Draft and boss variants incrementally after quests and persistence are tested. A complete all-world randomizer is not part of v0.1.
+
+## Run the prototype locally
+
+No game server or game assets are required for the example; its `demo-*` identifiers are fictional placeholders, not genuine Wizard101 IDs.
+
+```bash
+python3 -m unittest discover -s tests -v
+python3 -m randomizer.cli generate --catalog config/example_catalog.json --settings config/example_settings.json --out out/demo-manifest.json
+python3 -m randomizer.cli progress --catalog config/example_catalog.json --manifest out/demo-manifest.json --state state/demo-players.json --character player-001 --level 10
+```
+
+**Implemented in the offline planner:** deterministic seeds; starter and level-up Wildcard spells; Draft choices; locks and reroll tokens; tier-safe encounter/boss assignments; deterministic reward checks; NPC identity, compatible roles, and within-zone location mappings; and a basic directed-portal reachability test.
+
+**Not implemented in-game yet:** hooking Imlight's XP, spellbook, quest/NPC and loot code; actual entity/portal swaps; server persistence; client visuals; complete quest progression logic; and Discord bot integration. Also see [Developer Notes](docs/DEVELOPMENT.md) and [Unified Feature Plan](docs/FEATURES.md).
 
 ## Intended deployment
 
@@ -73,13 +87,14 @@ These are **not** a complete seed-based randomizer. We will initially test creat
 ```text
 W101-randomizer/
 ├── README.md
-├── docs/             # Ubuntu deployment, design notes, testing
-├── config/           # Safe sample config; no secrets
-├── src/              # Seed generator and server integration
-└── tests/            # Determinism and progression tests
+├── randomizer/       # Python offline seed and progression engine
+├── tests/            # Executable deterministic/progression unit tests
+├── config/           # DEMO catalogs and settings (not game data)
+├── docs/             # Designs and integration guidance
+└── .github/workflows/# CI tests
 ```
 
-Folders above describe the intended layout; they will be added as development starts.
+The listed offline prototype folders exist; production Imlight integration code will be added separately.
 
 ## Security and data
 
