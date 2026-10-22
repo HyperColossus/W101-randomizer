@@ -85,6 +85,13 @@ public sealed class RandomizerClient : IDisposable {
     public Task<JsonElement> CharacterAsync(string characterId, CancellationToken cancellationToken = default)
         => GetAsync("v1/characters/" + Uri.EscapeDataString(characterId), cancellationToken);
 
+    /// <summary>Parse pending grant instructions. Fetch on a worker and route
+    /// each parsed event into the correct Imlight character actor mailbox.
+    /// Do not mutate any Wizard state from a continuation or background thread.</summary>
+    public async Task<IReadOnlyList<PendingEffect>> PendingEffectsAsync(string characterId,
+        CancellationToken cancellationToken = default)
+        => PendingEffects.Parse(await PendingAsync(characterId, cancellationToken));
+
     /// <summary>Look up deterministic encounter/NPC/boss/loot/portal mapping by catalog slot ID.</summary>
     public Task<JsonElement> ResolveAsync(string category, string slotId, CancellationToken cancellationToken = default)
         => GetAsync("v1/world/" + Uri.EscapeDataString(category) + "/" + Uri.EscapeDataString(slotId), cancellationToken);
