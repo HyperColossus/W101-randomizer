@@ -6,7 +6,7 @@ The repository contains an independent, **working offline randomizer service**, 
 
 1. Audit the Ubuntu laptop's memory, disk, CPU, network ports and .NET installation. Keep the existing Discord bot isolated in its own systemd unit.
 2. Pin compatible Imlight, Aurorium, SpiralDB, and client versions. Do not assume an old client works with the newest prebuilt server.
-3. Build a **verified content catalog** using *real* template IDs and placement IDs in that revision. The checked-in `example_catalog.json` uses fake `demo-*` IDs. **The bridge refuses to start with sample IDs unless explicitly passed `--allow-demo`.** That flag is for local tests only.
+3. Build a **verified content catalog** using *real* template IDs and placement IDs in that revision. The checked-in `example_catalog.json` uses fake `demo-*` IDs and a tiny illustrative story dependency graph. **The bridge refuses to start with sample IDs unless explicitly passed `--allow-demo`.** That flag is for local tests only.
 4. Before exposing a server, change every default admin password, keep RavenDB private, and review listening interfaces. The Python bridge only allows loopback HTTP with a private bearer token.
 5. Set up backups of player saves, catalog, active manifest, and SQLite run database. Avoid changing the manifest while players have an active run.
 
