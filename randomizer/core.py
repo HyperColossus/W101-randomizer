@@ -114,7 +114,7 @@ def _identity_shuffle(catalog: dict, rng: SeedRng) -> dict[str, str]:
         original = npc["identity"]
         if original not in identity_idx:
             raise RandomizerError(f"NPC {npc['slot']} references missing identity {original}")
-        if npc.get("protected", False):
+        if npc.get("protected", False) or npc.get("identity_protected", False):
             results[npc["slot"]] = original
             continue
         group = npc.get("appearance_group", "default")
@@ -132,7 +132,7 @@ def _role_shuffle(catalog: dict, rng: SeedRng) -> dict[str, str]:
         # Transfer only to eligible NPCs within the same zone with identical service signatures.
         roles = sorted(npc.get("roles", []))
         entries.append({"slot": npc["slot"], "group": canonical([npc["zone"], roles]).decode(),
-                        "protected": npc.get("protected", False) or not roles})
+                        "protected": npc.get("protected", False) or npc.get("roles_protected", False) or not roles})
     return _shuffle_bijective(entries, "slot", rng)
 
 
@@ -145,7 +145,7 @@ def _npc_location_shuffle(catalog: dict, rng: SeedRng) -> dict[str, str]:
     for npc in catalog.get("npcs", []):
         original = str(npc.get("location", npc["slot"]))
         result[npc["slot"]] = original
-        if not npc.get("protected", False) and (npc["zone"], original) in approved:
+        if not npc.get("protected", False) and not npc.get("location_protected", False) and (npc["zone"], original) in approved:
             groups.setdefault(npc["zone"], []).append(npc)
     for zone in sorted(groups):
         npcs = sorted(groups[zone], key=lambda x: x["slot"])
@@ -250,6 +250,13 @@ def generate_manifest(catalog: dict, settings: dict) -> dict:
     if not seed or len(seed) > 128:
         raise RandomizerError("seed must be 1-128 characters")
     modules = settings.get("modules", {})
+    # A raw SpiralDB import only models a tiny subset of real quest requirements
+    # and transfer paths. Never treat start-zone reachability as a certified
+    # whole-world portal randomization.
+    if (modules.get("portals", False)
+            and catalog.get("source_metadata", {}).get("origin") == "https://github.com/Revive101/spiraldb"
+            and set(catalog.get("required_zones", [])) != set(catalog.get("zones", []))):
+        raise RandomizerError("SpiralDB portal shuffle requires a validated full-zone scope")
     spell_mode = modules.get("spells", "vanilla")
     if spell_mode not in ("vanilla", "wildcard", "draft"):
         raise RandomizerError("spells must be vanilla, wildcard, or draft")
