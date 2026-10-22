@@ -133,10 +133,10 @@ if __name__ == '__main__':
 
 class SpiralDbCliTests(SpiralDbImporterTests):
     def test_cli_writes_both_outputs(self):
-        from randomizer.cli import main
+        from randomizer.spiral_cli import main
         catalog = self.root / 'out/catalog.json'
         report = self.root / 'out/report.json'
-        self.assertEqual(main(['import-spiraldb', '--spiraldb', str(self.root),
+        self.assertEqual(main(['--spiraldb', str(self.root),
                                '--out', str(catalog), '--report', str(report)]), 0)
         saved = json.loads(catalog.read_text())
         summary = json.loads(report.read_text())
