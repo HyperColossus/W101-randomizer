@@ -6,19 +6,19 @@ A work-in-progress **seed-based Wizard101 randomizer** built around the open-sou
 
 See the [Unified Feature Plan](docs/FEATURES.md) for the complete feature catalog, including NPC identity, questgiver, and location shuffle. See the [Ascension Wildcard Feature Design](docs/ASCENSION_WILDCARD_DESIGN.md) for spell progression mechanics.
 
-> **Status:** Offline engine v0.1 is implemented and locally tested. It can generate seed manifests and simulate Wildcard/Draft character progression. **Nothing is connected to a running Wizard101 client or Imlight server yet.**
+> **Status:** Prototype v0.2. The seed engine, Wildcard/Draft rules, Skill Cards, rerolls, prestige, optional quest-logic graph, transactional SQLite state, and an authenticated loopback API are implemented. **The C# bridge is a standalone client only; no live Imlight hooks or game-client integration have been tested or deployed.**
 
 ## Project goals
 
 - **Seeded replayability:** Every run has repeatable world and reward mappings, with per-character randomized ability progression.
-- **Ascension-style spell builds:** Wildcard random unlocks, optional three-choice Draft, protected spells, limited rerolls, and future synergy.
+- **Ascension-style spell builds:** Wildcard random unlocks, three-choice Draft, protected spells, limited rerolls, skill cards, synergy weighting and prototype prestige.
 - **Creature and boss shuffle:** Remixed encounters and boss variants with encounter difficulty guards.
 - **Loot and quest reward shuffle:** Change supported drops and reward placements without blocking progression.
 - **Talk-to NPC shuffle:** Randomize eligible NPC appearance/identity, later questgiver roles and locations while keeping quests functional.
 - **Gateway shuffle:** Randomized routes once all critical paths pass reachability checks.
 - **Multiplayer and presets:** Shared seeded world, personal spell progress, independent module toggles including a future Full Spiral Chaos preset.
 
-### First playable milestone (v0.1)
+### First playable milestone (not yet achieved)
 
 A **Wizard City-focused** base that demonstrates deterministic Wildcard spell rewards and at least one safe, seeded adventure-world shuffle (creature or eligible NPC appearance). Build NPC questgiver swaps, loot/reward shuffle, Draft and boss variants incrementally after quests and persistence are tested. A complete all-world randomizer is not part of v0.1.
 
@@ -30,11 +30,14 @@ No game server or game assets are required for the example; its `demo-*` identif
 python3 -m unittest discover -s tests -v
 python3 -m randomizer.cli generate --catalog config/example_catalog.json --settings config/example_settings.json --out out/demo-manifest.json
 python3 -m randomizer.cli progress --catalog config/example_catalog.json --manifest out/demo-manifest.json --state state/demo-players.json --character player-001 --level 10
+python3 -m randomizer.cli status --catalog config/example_catalog.json --manifest out/demo-manifest.json --db state/demo.sqlite3
 ```
 
-**Implemented in the offline planner:** deterministic seeds; starter and level-up Wildcard spells; Draft choices; locks and reroll tokens; tier-safe encounter/boss assignments; deterministic reward checks; NPC identity, compatible roles, and within-zone location mappings; and a basic directed-portal reachability test.
+**Implemented in local code:** independently seeded world mappings; Wildcard/Draft progression; spell locks/reroll tokens; supported skill cards and a prototype prestige lifecycle; tier-filtered creature and boss placements; seeded reward checks; compatible NPC role, identity and location mappings; basic graph + optional modeled quest progression checks; SQLite state/idempotent commands/claim ledger/durable event outbox; an authenticated loopback HTTP API; and a C# HTTP client for future Imlight integration.
 
-**Not implemented in-game yet:** hooking Imlight's XP, spellbook, quest/NPC and loot code; actual entity/portal swaps; server persistence; client visuals; complete quest progression logic; and Discord bot integration. Also see [Developer Notes](docs/DEVELOPMENT.md) and [Unified Feature Plan](docs/FEATURES.md).
+**Automated tests:** 36 unit/integration tests passed locally on October 22, 2026. GitHub Actions execution has not been independently verified.
+
+**Not yet connected to a playable Wizard101 private server:** game-specific Imlight hooks, authoritative spellbook/item grants, NPC appearance and dialogue swaps, quest and NPC service rebinding, actual portal rerouting, complete real-world content/quest catalogs, live cross-school pip balancing, multiplayer game tests, and Discord bot integration. See [Developer Notes](docs/DEVELOPMENT.md), [Game Server Integration](docs/INTEGRATION.md), and [Unified Feature Plan](docs/FEATURES.md).
 
 ## Intended deployment
 
@@ -57,17 +60,18 @@ Revive101 provides Linux builds. We plan to start from a compatible tagged Imlig
 - [ ] Set up Aurorium and verify compatible game assets / client
 - [ ] Change default admin credentials and test local login
 - [ ] Keep game services separate from the existing Discord bot
-- [ ] Build an offline deterministic per-character spell-rolling engine and vetted spell catalog
+- [x] Build an offline deterministic spell-rolling engine with a **demo** catalog (real game content still needed)
 - [ ] Integrate level-up rolls, spellbook updates, persistence, and starter attack guarantee
 - [ ] Verify cross-school pip behavior and prevent unusable rolls
-- [ ] Implement protected spell slots and earned reroll tokens
-- [ ] Add optional three-card Draft mode
+- [x] Implement offline spell locks and event-based reroll tokens (in-game award hookup pending)
+- [x] Implement offline three-choice Draft and pending-offer state (in-game choice UI pending)
 - [ ] Build an eligible NPC catalog and implement safe seeded identity/appearance swaps
 - [ ] Implement NPC questgiver/goal role mapping with dialogue, markers and progression tests
-- [ ] Add seed-stable creature, boss and loot/quest reward modules
+- [x] Implement seed-stable creature, boss and reward **plans** (game changes pending)
 - [ ] Validate randomized NPC locations and portal routes before enabling
 - [ ] Add configuration controls and optional Discord bot integration
-- [ ] Test multiplayer and persist / restore active runs
+- [x] Test SQLite persistence, event idempotency and concurrent claims locally
+- [ ] Test live Imlight multiplayer, reconnection and content restoration
 
 ## Existing randomization hooks
 
@@ -91,10 +95,11 @@ W101-randomizer/
 ├── tests/            # Executable deterministic/progression unit tests
 ├── config/           # DEMO catalogs and settings (not game data)
 ├── docs/             # Designs and integration guidance
-└── .github/workflows/# CI tests
+├── integration/      # Standalone C# HTTP bridge source, not wired
+└── .github/workflows/ # CI tests
 ```
 
-The listed offline prototype folders exist; production Imlight integration code will be added separately.
+These directories exist. The integration helper is source-only; actual Imlight source patches still need implementing and testing.
 
 ## Security and data
 
