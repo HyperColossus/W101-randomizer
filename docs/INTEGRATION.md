@@ -1,12 +1,12 @@
 # Imlight integration and deployment — NOT yet wired into the game
 
-The repository contains an independent, **working offline randomizer service**, a Python loopback API, and the source of a lightweight **C# HTTP client** at [`integration/ImlightBridge/RandomizerClient.cs`](../integration/ImlightBridge/RandomizerClient.cs). That C# source is an integration building block, **not an installed plugin or a compiled server patch**.
+The repository contains an independent, **working offline randomizer service**, a Python loopback API, and the source of a lightweight **C# HTTP client** at [`integration/ImlightBridge/RandomizerClient.cs`](../integration/ImlightBridge/RandomizerClient.cs). The C# client and [`PendingEffects.cs`](../integration/ImlightBridge/PendingEffects.cs) form an actor-owned effects interface. **They are not an installed Imlight plugin or live compiled server patch.**
 
 ## Critical prerequisites
 
 1. Audit the Ubuntu laptop's memory, disk, CPU, network ports and .NET installation. Keep the existing Discord bot isolated in its own systemd unit.
 2. Pin compatible Imlight, Aurorium, SpiralDB, and client versions. Do not assume an old client works with the newest prebuilt server.
-3. Build a **verified content catalog** using *real* template IDs and placement IDs in that revision. The checked-in `example_catalog.json` uses fake `demo-*` IDs and a tiny illustrative story dependency graph. **The bridge refuses to start with sample IDs unless explicitly passed `--allow-demo`.** That flag is for local tests only.
+3. Follow the [SpiralDB verification pipeline](SPIRALDB_CURATED_PIPELINE.md) to build a **verified content catalog** using *real* template IDs and placement IDs in that revision. The checked-in `example_catalog.json` uses fake `demo-*` IDs and a tiny illustrative story dependency graph. **The bridge refuses to start with sample IDs unless explicitly passed `--allow-demo`.** That flag is for local tests only.
 4. Before exposing a server, change every default admin password, keep RavenDB private, and review listening interfaces. The Python bridge only allows loopback HTTP with a private bearer token.
 5. Set up backups of player saves, catalog, active manifest, and SQLite run database. Avoid changing the manifest while players have an active run.
 
@@ -78,7 +78,7 @@ The following code points were identified in Imlight's source; check file paths 
 | NPC positions | Zone entity spawn position & quest hints | Use approved points, validate access/geometry and rebind quest destinations |
 | Portal transitions | `ZoneTriggerSupervisor` or compatible zone transfer handler | Resolve remapped destination after verifying dependencies and return route; protect scripted transfers |
 
-**Threading:** `WizardService` uses actors. Do not mutate live `Wizard` objects from a background HTTP callback. Marshal completed HTTP results back to the *owning actor* and perform spellbook/character-save changes there. Handle temporary API outages by replaying the pending outbox on reconnect.
+**Threading:** Use `PendingEffects.Parse` and `ActorOwnedEffectApplier.Apply` only as outlined in [the curation and bridge guide](SPIRALDB_CURATED_PIPELINE.md). `WizardService` uses actors. Do not mutate live `Wizard` objects from a background HTTP callback. Marshal completed HTTP results back to the *owning actor* and perform spellbook/character-save changes there. Handle temporary API outages by replaying the pending outbox on reconnect.
 
 **Plugin integration status:** The C# `RandomizerClient.cs` is source-only, using standard .NET HTTP/JSON APIs. This repository **does not yet include an Imlight fork/patch**, and the helper has not been compiled against a pinned Imlight build in this environment. It cannot prove that a changed NPC will have correct rendering, dialogue or cinematics.
 
