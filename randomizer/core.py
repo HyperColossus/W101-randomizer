@@ -207,7 +207,7 @@ def _reachable(edges: list[dict], start: str) -> set[str]:
     return found
 
 
-def _portal_shuffle(catalog: dict, rng: SeedRng, enabled: bool) -> tuple[dict[str, str], dict]:
+def _portal_shuffle(catalog: dict, rng: SeedRng, enabled: bool, npc_roles: dict[str, str]) -> tuple[dict[str, str], dict]:
     edges = catalog.get("portals", [])
     mutable = sorted([x for x in edges if not x.get("protected", False)], key=lambda x: x["id"])
     original = {x["id"]: x["destination"] for x in edges}
@@ -216,11 +216,19 @@ def _portal_shuffle(catalog: dict, rng: SeedRng, enabled: bool) -> tuple[dict[st
         required = set(catalog.get("required_zones", [])) | {catalog["start_zone"]}
         if not required.issubset(_reachable(proposed, catalog["start_zone"])):
             return False
-        return not catalog.get("require_return_paths", True) or all(
+        if catalog.get("require_return_paths", True) and not all(
             catalog["start_zone"] in _reachable(proposed, zone) for zone in required
-        )
+        ):
+            return False
+        if catalog.get('story_logic') is not None:
+            from .logic import check_story_logic
+            if not check_story_logic(catalog, npc_roles, mapping)['ok']:
+                return False
+        return True
     if not valid(original):
-        raise RandomizerError("original portal graph cannot reach every required zone and return")
+        if catalog.get('story_logic') is not None:
+            raise RandomizerError('story progression blocked or original portal graph disconnected')
+        raise RandomizerError('original portal graph cannot reach every required zone and return')
     if not enabled:
         return original, {"reachability_checked": True, "shuffled": False}
     if len(mutable) < 2:
@@ -261,7 +269,7 @@ def generate_manifest(catalog: dict, settings: dict) -> dict:
         creatures = _pick_by_tier(catalog.get("creature_spawns", []), catalog.get("creature_pool", []), SeedRng(seed, "creatures"))
     if modules.get("bosses", False):
         bosses = _pick_by_tier(catalog.get("boss_spawns", []), catalog.get("boss_pool", []), SeedRng(seed, "bosses"))
-    portals, portal_checks = _portal_shuffle(catalog, SeedRng(seed, "portals"), modules.get("portals", False))
+    portals, portal_checks = _portal_shuffle(catalog, SeedRng(seed, "portals"), modules.get("portals", False), roles)
     result = {
         "schema": MANIFEST_SCHEMA, "engine_version": ENGINE_VERSION, "seed": seed,
         "catalog_sha256": fingerprint(catalog), "settings_sha256": fingerprint(settings),
@@ -289,5 +297,14 @@ def generate_manifest(catalog: dict, settings: dict) -> dict:
         raise RandomizerError('synergy_bonus must be 0..10')
     if not 1 <= cfg['max_starter_pips'] <= 4:
         raise RandomizerError('max_starter_pips must be 1..4')
+    # Optional explicit progression dependency model. The graph must be supplied
+    # by a verified catalog. Missing story data is explicitly reported unverified.
+    from .logic import check_story_logic
+    progression = check_story_logic(catalog, roles, portals)
+    if progression.get('modeled') and not progression['ok']:
+        raise RandomizerError('story progression blocked: ' +
+            ', '.join(progression['missing_goals'] + progression['missing_flags'] +
+                      progression['missing_zones']))
+    result['checks']['story_logic'] = progression
     result["manifest_sha256"] = fingerprint(result)
     return result
