@@ -18,7 +18,7 @@ Run a local bridge using the commands in [INTEGRATION.md](INTEGRATION.md). The e
 - SHA-256 deterministic RNG streams for world modules; immutable content fingerprints.
 - Vetted-pool Wildcard starter spells, milestone rolls, Draft offers and choices, reroll tokens, protected spells, per-character skill cards, a limited synergy weight, and a prototype prestige lifecycle.
 - Seeded mappings for NPC appearances, matching quest-role slots, approved positions, ordinary encounters, boss roles, quest/boss/mob reward checks, and portal destinations.
-- Directed-zone portal connectivity and return-path checks; **no quest-logic graph validation** yet.
+- Directed-zone portal connectivity and return-path checks plus an optional **explicit quest dependency graph** for NPC talk-to goals, prerequisite flags, and gated portals; real game quests are not yet exported into the graph.
 - SQLite `BEGIN IMMEDIATE` transactions with command-idempotency records, durable spell/item outbox, first-clear claims and distinct mob-encounter claim IDs.
 - Authenticated local HTTP service and independent .NET HTTP client source code.
 - Test suite covering determinism, persistence, concurrency, replay, authorization, and selected gameplay rules.
