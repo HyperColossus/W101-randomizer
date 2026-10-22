@@ -1,0 +1,18 @@
+{
+  "seed": "WIZ-48291",
+  "starting_spells": 3,
+  "levels_per_spell": 3,
+  "max_starter_pips": 2,
+  "modules": {
+    "spells": "wildcard",
+    "npc_identity": true,
+    "npc_roles": true,
+    "npc_locations": true,
+    "creatures": true,
+    "bosses": true,
+    "quest_rewards": true,
+    "boss_loot": true,
+    "mob_loot": true,
+    "portals": false
+  }
+}
